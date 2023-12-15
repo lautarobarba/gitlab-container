@@ -5,9 +5,21 @@ services:
     container_name: gitlab
     image: gitlab/gitlab-ce:14.9.0-ce.0
     env_file: .env
+    hostname: ${HOSTNAME}
+    shm_size: "256m"
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url ${EXTERNAL_URL}
+        external_url "${EXTERNAL_URL}"
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = "${SMTP_SERVER}"
+        gitlab_rails['smtp_port'] = ${SMTP_PORT}
+        gitlab_rails['smtp_user_name'] = "${SMTP_USER}"
+        gitlab_rails['smtp_password'] = "${SMTP_PASSWORD}"
+        gitlab_rails['smtp_authentication'] = "login"
+        gitlab_rails['smtp_enable_starttls_auto'] = true
+        gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+        gitlab_rails['gitlab_email_from'] = '${SMTP_DEFAULT_FROM_EMAIL}'
+        gitlab_rails['gitlab_email_reply_to'] = '${SMTP_DEFAULT_FROM_EMAIL}'
     restart: always
     ports:
       - ${APP_PORT}:80
