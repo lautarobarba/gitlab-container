@@ -12,4 +12,9 @@ Organization Name (eg, company) [Internet Widgits Pty Ltd]:Desarrollo Sur
 Organizational Unit Name (eg, section) []:
 Common Name (e.g. server FQDN or YOUR name) []:*.desarrollosur.com.ar
 Email Address []:email@personal.com
+
+$ # Cambiar los permisos de los certificados
+$ mkdir certs
+$ mv registry.desarrollosur.com.ar.* certs/
+$ chmod 600 certs/*
 ```
