@@ -2,7 +2,7 @@ name: gitlab
 services:
   gitlab:
     container_name: gitlab
-    image: gitlab/gitlab-ce:16.3.9-ce.0
+    image: gitlab/gitlab-ce:16.7.10-ce.0
     env_file: .env
     hostname: ${HOSTNAME}
     environment:
