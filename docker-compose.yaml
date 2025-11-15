@@ -2,7 +2,7 @@ name: gitlab
 services:
   gitlab:
     container_name: gitlab
-    image: gitlab/gitlab-ce:16.11.10-ce.0
+    image: gitlab/gitlab-ce:17.0.8-ce.0
     env_file: .env
     hostname: ${HOSTNAME}
     environment:
@@ -25,7 +25,7 @@ services:
         gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
         gitlab_rails['gitlab_email_from'] = '${SMTP_DEFAULT_FROM_EMAIL}'
         gitlab_rails['gitlab_email_reply_to'] = '${SMTP_DEFAULT_FROM_EMAIL}'
-    restart: always
+        #restart: always
     ports:
       #- ${APP_PORT}:80
       - ${APP_PORT}:443
