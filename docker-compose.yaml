@@ -26,7 +26,39 @@ services:
         gitlab_rails['smtp_openssl_verify_mode'] = "none"
         gitlab_rails['gitlab_email_from'] = '${SMTP_DEFAULT_FROM_EMAIL}'
         gitlab_rails['gitlab_email_reply_to'] = '${SMTP_DEFAULT_FROM_EMAIL}'
-        #restart: always
+        # Puma workers (reemplaza Unicorn desde GitLab 13+)
+        puma['worker_processes'] = 2
+        puma['min_threads'] = 1
+        puma['max_threads'] = 4
+        # Sidekiq
+        sidekiq['concurrency'] = 5
+        # PostgreSQL
+        postgresql['shared_buffers'] = "256MB"
+        postgresql['max_connections'] = 100
+        postgresql['work_mem'] = "8MB"
+        # Redis 
+        redis['maxmemory'] = "200mb"
+        redis['maxmemory_policy'] = "allkeys-lru"
+        # Prometheus y monitoreo interno 
+        # Deshabilitalo si no usás el monitoreo interno de GitLab
+        prometheus_monitoring['enable'] = false
+        alertmanager['enable'] = false
+        node_exporter['enable'] = false
+        redis_exporter['enable'] = false
+        postgres_exporter['enable'] = false
+        gitlab_exporter['enable'] = false
+        # Servicios opcionales 
+        # Deshabilitá lo que no uses
+        mattermost['enable'] = false
+
+        # Gitaly (ajuste de workers)
+        gitaly['configuration'] = {
+          concurrency: [
+            { 'rpc' => "/gitaly.SmartHTTPService/PostReceivePack", 'max_per_repo' => 3 },
+            { 'rpc' => "/gitaly.SSHService/SSHUploadPack", 'max_per_repo' => 3 },
+          ]
+        }
+    restart: always
     ports:
       #- ${APP_PORT}:80
       - ${APP_PORT}:443
