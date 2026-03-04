@@ -22,7 +22,7 @@ services:
         gitlab_rails['smtp_user_name'] = "${SMTP_USER}"
         gitlab_rails['smtp_password'] = "${SMTP_PASSWORD}"
         gitlab_rails['smtp_authentication'] = "login"
-        gitlab_rails['smtp_tls'] = false
+        gitlab_rails['smtp_tls'] = true
         gitlab_rails['smtp_enable_starttls_auto'] = false
         gitlab_rails['smtp_openssl_verify_mode'] = "none"
         gitlab_rails['gitlab_email_from'] = '${SMTP_DEFAULT_FROM_EMAIL}'
@@ -69,6 +69,9 @@ services:
       - ./certs/registry.justierradelfuego.gov.ar.key:/etc/gitlab/ssl/registry.justierradelfuego.gov.ar.key
     networks:
       - nginx-proxy
+    # disable saving logs
+    logging:
+      driver: none
 
 networks:
   nginx-proxy:
