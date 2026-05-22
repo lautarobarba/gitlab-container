@@ -18,3 +18,11 @@ $ mkdir certs
 $ mv registry.desarrollosur.com.ar.* certs/
 $ chmod 600 certs/*
 ```
+
+
+### TODO
+
+```bash
+Agregar garbage collector para imagenes eliminadas del image registry
+[] docker compose exec gitlab gitlab-ctl registry-garbage-collect
+```
